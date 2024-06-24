@@ -15,12 +15,12 @@
 
 #### Структура проекту
 
-- **`db/`**: папка з файлами бази даних.
-- **`controllers/`**: контролери для обробки HTTP-запитів.
-- **`services/`**: сервіси для роботи з даними.
-- **`schemas/`**: схеми для валідації даних.
-- **`helpers/`**: допоміжні функції та утиліти.
-- **`routes/`**: маршрутизація для обробки HTTP-запитів.
+- **`db/`**: Папка з файлами бази даних.
+- **`controllers/`**: Контролери для обробки HTTP-запитів.
+- **`services/`**: Сервіси для роботи з даними.
+- **`schemas/`**: Схеми для валідації даних.
+- **`helpers/`**: Допоміжні функції та утиліти.
+- **`routes/`**: Маршрутизація для обробки HTTP-запитів.
 
 #### Інсталяція
 
@@ -48,7 +48,5 @@
 
 Якщо у вас виникли питання або проблеми з кодом, будь ласка, зв'яжіться з автором репозиторію:
 
-- GitHub: [github.com/yourusername](https://github.com/nataliiahodnia)
-- LinkedIn: [linkedin.com/in/yourusername](https://www.linkedin.com/in/nataliia-hodnia/)
-
-
+- GitHub: [![GitHub](https://img.shields.io/badge/GitHub-yourusername-blue)](https://github.com/nataliiahodnia)
+- LinkedIn: [![LinkedIn](https://img.shields.io/badge/LinkedIn-yourusername-blue)](https://www.linkedin.com/in/nataliia-hodnia/)

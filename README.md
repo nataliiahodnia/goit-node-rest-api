@@ -48,5 +48,6 @@
 
 Якщо у вас виникли питання або проблеми з кодом, будь ласка, зв'яжіться з автором репозиторію:
 
-- GitHub: [![GitHub](https://img.shields.io/badge/GitHub-yourusername-blue)](https://github.com/nataliiahodnia)
-- LinkedIn: [![LinkedIn](https://img.shields.io/badge/LinkedIn-yourusername-blue)](https://www.linkedin.com/in/nataliia-hodnia/)
+[![GitHub](https://img.shields.io/badge/GitHub-nataliiahodnia-blue)](https://github.com/nataliiahodnia)
+
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-nataliiahodnia-blue)](https://www.linkedin.com/in/nataliia-hodnia/)

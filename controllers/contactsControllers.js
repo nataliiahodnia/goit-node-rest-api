@@ -51,14 +51,21 @@ const updateContact = async (req, res, next) => {
     const { id } = req.params;
     const { name, email, phone } = req.body;
 
-    const result = await contactsService.updateContact(id, { name, email, phone });
+    const result = await contactsService.updateContact(id, {
+      name,
+      email,
+      phone,
+    });
 
     if (!result) {
       throw new HttpError(404, "Not found");
     }
 
     if (!name && !email && !phone) {
-      throw new HttpError(400, "At least one field (name, email, phone) must be present in the request body");
+      throw new HttpError(
+        400,
+        "At least one field (name, email, phone) must be present in the request body"
+      );
     }
 
     res.json(result);

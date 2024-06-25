@@ -47,18 +47,17 @@ async function addContact(name, email, phone) {
   return newContact;
 }
 
-
 async function updateContactById(req, res, next) {
-     try {
-       const updatedContact = await updateContact(req.params.id, req.body);
-       if (!updatedContact) {
-         throw new HttpError('Not found', 404);
-       }
-       res.status(200).json(updatedContact);
-     } catch (error) {
-       next(error);
-     }
-   }
+  try {
+    const updatedContact = await updateContact(req.params.id, req.body);
+    if (!updatedContact) {
+      throw new HttpError("Not found", 404);
+    }
+    res.status(200).json(updatedContact);
+  } catch (error) {
+    next(error);
+  }
+}
 
 module.exports = {
   listContacts,

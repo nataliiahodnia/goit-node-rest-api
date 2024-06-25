@@ -38,9 +38,9 @@ async function addContact(name, email, phone) {
   const contacts = await readContacts();
   const newContact = {
     id: uuidv4(),
-    name: name,
-    email: email,
-    phone: phone,
+    name,
+    email,
+    phone,
   };
   contacts.push(newContact);
   await writeContacts(contacts);

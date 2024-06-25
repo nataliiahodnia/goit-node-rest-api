@@ -48,7 +48,6 @@ async function addContact(name, email, phone) {
 }
 
 
-
 async function updateContactById(req, res, next) {
      try {
        const updatedContact = await updateContact(req.params.id, req.body);

@@ -1,5 +1,5 @@
-const contactsService = require("../services/contactsServices");
 const { HttpError } = require("../helpers/HttpError");
+const contactsService = require("../services/contactsServices");
 
 const getAllContacts = async (req, res, next) => {
   try {
@@ -15,7 +15,7 @@ const getOneContact = async (req, res, next) => {
     const { id } = req.params;
     const result = await contactsService.getContactById(id);
     if (!result) {
-      throw HttpError(404, "Not found");
+      throw new HttpError(404, "Not found");
     }
     res.json(result);
   } catch (error) {
@@ -28,7 +28,7 @@ const deleteContact = async (req, res, next) => {
     const { id } = req.params;
     const result = await contactsService.removeContact(id);
     if (!result) {
-      throw HttpError(404, "Not found");
+      throw new HttpError(404, "Not found");
     }
     res.json(result);
   } catch (error) {
@@ -38,7 +38,8 @@ const deleteContact = async (req, res, next) => {
 
 const createContact = async (req, res, next) => {
   try {
-    const result = await contactsService.addContact(req.body);
+    const { name, email, phone } = req.body;
+    const result = await contactsService.addContact(name, email, phone);
     res.status(201).json(result);
   } catch (error) {
     next(error);
@@ -48,14 +49,16 @@ const createContact = async (req, res, next) => {
 const updateContact = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const result = await contactsService.updateContact(id, req.body);
+    const { name, email, phone } = req.body;
+
+    const result = await contactsService.updateContact(id, { name, email, phone });
 
     if (!result) {
-      throw HttpError(404, "Not found");
+      throw new HttpError(404, "Not found");
     }
 
-    if (!req.body || Object.keys(req.body).length === 0) {
-      throw HttpError(400, "Body must have at least one field");
+    if (!name && !email && !phone) {
+      throw new HttpError(400, "At least one field (name, email, phone) must be present in the request body");
     }
 
     res.json(result);

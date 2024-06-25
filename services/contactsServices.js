@@ -38,14 +38,16 @@ async function addContact(name, email, phone) {
   const contacts = await readContacts();
   const newContact = {
     id: uuidv4(),
-    name,
-    email,
-    phone,
+    name: name,
+    email: email,
+    phone: phone,
   };
   contacts.push(newContact);
   await writeContacts(contacts);
   return newContact;
 }
+
+
 
 async function updateContactById(req, res, next) {
      try {

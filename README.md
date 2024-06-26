@@ -1,162 +1,67 @@
-### Saving Homework Assignments 🚀 (English)
+# Домашнє завдання 3
 
-Each Node.js module homework assignment can be stored on a separate branch in this repository.
+## Створи гілку 03-mongodb з гілки master.
 
-- **Module 2** — branch `hw02-express`
-- **Module 3** — branch `03-mongodb`
-- **Module 4** — branch `04-auth`
-- **Module 5** — branch `hw05-avatars`
-- **Module 6** — branch `hw06-email`
+Продовж створення REST API для роботи з колекцією контактів.
 
-### Project Description 🚀
+### Крок 1
 
-This repository contains completed homework assignments from the Node.js course. Each assignment is located on its respective branch, making it easy to track progress and completion for each module.
+1. Створи аккаунт на MongoDB Atlas. Після чого в акаунті створи новий проект і налаштуй безкоштовний кластер.
+2. Під час налаштування кластера вибери провайдера і регіон як на скріншоті нижче. Якщо вибрати занадто віддалений регіон, швидкість відповіді сервера буде довше.
 
-#### Project Structure
+### Крок 2
 
-- **`db/`**: Folder containing database files.
-- **`controllers/`**: Controllers for handling HTTP requests.
-- **`services/`**: Services for working with data.
-- **`schemas/`**: Schemas for data validation.
-- **`helpers/`**: Helper functions and utilities.
-- **`routes/`**: Routing for handling HTTP requests.
+1. Встанови графічний редактор MongoDB Compass для зручної роботи з базою даних для MongoDB.
+2. Налаштуй підключення своєї хмарної бази даних до Compass.
+3. У MongoDB Atlas не забудь створити користувача з правами адміністратора.
 
-#### Installation
+### Крок 3
 
-1. Clone the repository:
+1. Через Compass створи базу даних `db-contacts` і в ній колекцію `contacts`.
+2. Використай посилання на JSON і за допомогою Compass наповни колекцію `contacts` (зроби імпорт) його вмістом.
 
-   ```bash
-   git clone https://github.com/yourusername/goit-node-rest-api.git
-   ```
+Якщо ви все зробили правильно, дані повинні з'явитися у вашій базі в колекції `contacts`.
 
-2. Install dependencies:
+### Крок 4
 
-   ```bash
-   npm install
-   ```
+1. Використовуй вихідний код домашньої роботи №2 і заміни зберігання контактів з JSON-файлу на створену тобою базу даних.
+2. Напиши код для створення підключення до MongoDB за допомогою Mongoose.
+3. При успішному підключенні виведи в консоль повідомлення "Database connection successful".
+4. Обов'язково оброби помилку підключення. Виведи в консоль повідомлення помилки і заверши процес, використовуючи `process.exit(1)`.
+5. У функціях обробки запитів заміни код CRUD-операцій над контактами з файлу на Mongoose-методи для роботи з колекцією контактів в базі даних.
 
-#### Usage
+Схема моделі для колекції `contacts`:
 
-For developing and testing the REST API, use tools such as [Postman](https://www.postman.com/) or other HTTP clients.
+```javascript
+{
+  name: {
+    type: String,
+    required: [true, 'Set name for contact'],
+  },
+  email: {
+    type: String,
+  },
+  phone: {
+    type: String,
+  },
+  favorite: {
+    type: Boolean,
+    default: false,
+  },
+}
+```
 
-#### Verification
+### Крок 5
 
-Ensure that your project works with the latest LTS version of Node.js.
+У нас з'явилося в контактах додаткове поле статусу `favorite`, яке приймає логічне значення `true` або `false`. Воно відповідає за те, що в обраному чи ні знаходиться зазначений контакт. Потрібно реалізувати для оновлення статусу контакту новий роутер:
 
-#### Support
+```http
+PATCH /api/contacts/:contactId/favorite
+```
 
-For any questions or issues with the code, please contact the repository author:
-
-
-🚩 [![GitHub](https://img.shields.io/badge/GitHub-nataliiahodnia-blue)](https://github.com/nataliiahodnia)
-
-🚩 [![LinkedIn](https://img.shields.io/badge/LinkedIn-nataliiahodnia-blue)](https://www.linkedin.com/in/nataliia-hodnia/)
-
-
-### Збереження домашніх завдань 🚀 (Ukrainian)
-
-Кожне домашнє завдання з блоку Node.js можна зберігати на окремій гілці в цьому репозиторії.
-
-- **Модуль 2** — гілка `hw02-express`
-- **Модуль 3** — гілка `03-mongodb`
-- **Модуль 4** — гілка `04-auth`
-- **Модуль 5** — гілка `hw05-avatars`
-- **Модуль 6** — гілка `hw06-email`
-
-### Опис проекту 🚀
-
-Цей репозиторій містить виконані домашні завдання з курсу Node.js. Кожне завдання знаходиться на відповідній гілці, що дозволяє легко відслідковувати прогрес та виконання завдань для кожного модуля.
-
-#### Структура проекту
-
-- **`db/`**: Папка з файлами бази даних.
-- **`controllers/`**: Контролери для обробки HTTP-запитів.
-- **`services/`**: Сервіси для роботи з даними.
-- **`schemas/`**: Схеми для валідації даних.
-- **`helpers/`**: Допоміжні функції та утиліти.
-- **`routes/`**: Маршрутизація для обробки HTTP-запитів.
-
-#### Інсталяція
-
-1. Клонуйте репозиторій:
-
-   ```bash
-   git clone https://github.com/yourusername/goit-node-rest-api.git
-   ```
-
-2. Встановіть залежності:
-
-   ```bash
-   npm install
-   ```
-
-#### Використання
-
-Для розробки та тестування REST API використовуйте інструменти, такі як [Postman](https://www.postman.com/) або інші HTTP-клієнти.
-
-#### Перевірка роботи
-
-Переконайтеся, що ваш проект працює з актуальною LTS-версією Node.js.
-
-#### Підтримка
-
-Якщо у вас виникли питання або проблеми з кодом, будь ласка, зв'яжіться з автором репозиторію:
-
-🚩 [![GitHub](https://img.shields.io/badge/GitHub-nataliiahodnia-blue)](https://github.com/nataliiahodnia)
-
-🚩 [![LinkedIn](https://img.shields.io/badge/LinkedIn-nataliiahodnia-blue)](https://www.linkedin.com/in/nataliia-hodnia/)
-
-
-### Zapisywanie zadań domowych 🚀 (Polish)
-
-Każde zadanie domowe z modułu Node.js można przechowywać na osobnym branchu w tym repozytorium.
-
-- **Moduł 2** — branch `hw02-express`
-- **Moduł 3** — branch `03-mongodb`
-- **Moduł 4** — branch `04-auth`
-- **Moduł 5** — branch `hw05-avatars`
-- **Moduł 6** — branch `hw06-email`
-
-### Opis projektu 🚀
-
-Ten repozytorium zawiera wykonane zadania domowe z kursu Node.js. Każde zadanie znajduje się na odpowiednim branchu, co ułatwia śledzenie postępów i realizację zadań dla każdego modułu.
-
-#### Struktura projektu
-
-- **`db/`**: Katalog zawierający pliki bazy danych.
-- **`controllers/`**: Kontrolery do obsługi żądań HTTP.
-- **`services/`**: Usługi do pracy z danymi.
-- **`schemas/`**: Schematy do walidacji danych.
-- **`helpers/`**: Funkcje pomocnicze i narzędzia.
-- **`routes/`**: Routery do obsługi żądań HTTP.
-
-#### Instalacja
-
-1. Sklonuj repozytorium:
-
-   ```bash
-   git clone https://github.com/yourusername/goit-node-rest-api.git
-   ```
-
-2. Zainstaluj zależności:
-
-   ```bash
-   npm install
-   ```
-
-#### Użycie
-
-Do rozwijania i testowania REST API używaj narzędzi takich jak [Postman](https://www.postman.com/) lub inne klienty HTTP.
-
-#### Weryfikacja działania
-
-Upewnij się, że projekt działa z najnowszą wersją LTS Node.js.
-
-#### Wsparcie
-
-W przypadku pytań lub problemów z kodem skontaktuj się z autorem repozytorium:
-
-🚩 [![GitHub](https://img.shields.io/badge/GitHub-nataliiahodnia-blue)](https://github.com/nataliiahodnia)
-
-🚩 [![LinkedIn](https://img.shields.io/badge/LinkedIn-nataliiahodnia-blue)](https://www.linkedin.com/in/nataliia-hodnia/)
-
+1. Отримує параметр `contactId`.
+2. Отримує `body` в JSON-форматі з оновленням поля `favorite`.
+3. Якщо з `body` все добре, викликає функцію `updateStatusContact(contactId, body)` (напиши її) для поновлення контакту в базі.
+4. За результатом роботи функції повертає оновлений об'єкт контакту і статусом 200.
+5. В іншому випадку повертає JSON з ключем `{"message": "Not found"}` і статусом 404.
+```

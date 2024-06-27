@@ -15,12 +15,24 @@ const { authenticate } = require("../../middlewares/authenticate");
 
 const router = express.Router();
 
-router.post("/register", validateBody(regisSchema), registration);
-router.post("/login", validateBody(authSchema), authorization);
-router.post("/logout", authenticate, logout);
+router.post("/register", validateBody(regisSchema), (req, res) => {
+  registration(req, res);
+});
 
-router.get("/current", authenticate, getCurrentUser);
+router.post("/login", validateBody(authSchema), (req, res) => {
+  authorization(req, res);
+});
 
-router.patch("/", authenticate, subscriptionUpdate);
+router.post("/logout", authenticate, (req, res) => {
+  logout(req, res);
+});
+
+router.get("/current", authenticate, (req, res) => {
+  getCurrentUser(req, res);
+});
+
+router.patch("/", authenticate, (req, res) => {
+  subscriptionUpdate(req, res);
+});
 
 module.exports = router;

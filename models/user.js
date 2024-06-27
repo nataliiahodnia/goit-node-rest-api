@@ -1,10 +1,9 @@
-const { Schema, model } = require("mongoose");
+const { Schema, model, models } = require("mongoose");
 const Joi = require("joi");
 
 const { mongooseError } = require("../middlewares/mongooseError");
 
-const validationEmail =
-  /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+const validationEmail = /^([A-Za-z0-9_\-\.])+@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
 
 const userSchema = new Schema(
   {
@@ -51,7 +50,7 @@ const schemas = {
   authSchema,
 };
 
-const User = model("user", userSchema);
+const User = models.User || model("User", userSchema);
 
 module.exports = {
   User,

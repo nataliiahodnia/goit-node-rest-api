@@ -1,4 +1,4 @@
-const { Schema, model } = require("mongoose");
+const { Schema, model, models } = require("mongoose");
 const Joi = require("joi");
 
 const { mongooseError } = require("../middlewares/mongooseError");
@@ -49,9 +49,6 @@ const updateContactSchema = Joi.object({
 });
 
 const updateFavorite = Joi.object({
-  name: Joi.string(),
-  email: Joi.string(),
-  phone: Joi.string(),
   favorite: Joi.boolean().required(),
 });
 
@@ -61,7 +58,7 @@ const schemas = {
   updateFavorite,
 };
 
-const Contact = model("contact", contactSchema);
+const Contact = models.Contact || model("Contact", contactSchema);
 
 module.exports = {
   Contact,

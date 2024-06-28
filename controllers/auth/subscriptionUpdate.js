@@ -5,23 +5,24 @@ const subscriptionUpdate = async (req, res, next) => {
     const { subscription: newValueSub } = req.body;
     const { email, _id } = req.user;
 
-    switch (newValueSub) {
-      case "starter":
-      case "business":
-      case "pro":
-        const updatedUser = await User.findOneAndUpdate(
-          { _id },
-          { subscription: newValueSub },
-          { new: true }
-        );
-        res.json({
-          email,
-          subscription: updatedUser.subscription,
-        });
-        break;
-      default:
-        res.status(400).json({ message: "This subscription does not exist" });
+    const validSubscriptions = ["starter", "business", "pro"];
+
+    if (!validSubscriptions.includes(newValueSub)) {
+      return res
+        .status(400)
+        .json({ message: "This subscription does not exist" });
     }
+
+    const updatedUser = await User.findOneAndUpdate(
+      { _id },
+      { subscription: newValueSub },
+      { new: true }
+    );
+
+    res.json({
+      email,
+      subscription: updatedUser.subscription,
+    });
   } catch (error) {
     next(error);
   }

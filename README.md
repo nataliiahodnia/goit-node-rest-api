@@ -1,162 +1,81 @@
-### Saving Homework Assignments 🚀 (English)
+# Домашнє завдання 5
 
-Each Node.js module homework assignment can be stored on a separate branch in this repository.
+## Створення гілки
 
-- **Module 2** — branch `hw02-express`
-- **Module 3** — branch `03-mongodb`
-- **Module 4** — branch `04-auth`
-- **Module 5** — branch `hw05-avatars`
-- **Module 6** — branch `hw06-email`
+Створи гілку `hw05-avatars` з гілки `master`.
 
-### Project Description 🚀
+## Продовження створення REST API для роботи з колекцією контактів
 
-This repository contains completed homework assignments from the Node.js course. Each assignment is located on its respective branch, making it easy to track progress and completion for each module.
+Додай можливість завантаження аватарки користувача через [Multer].
 
-#### Project Structure
+### Крок 1
 
-- **`db/`**: Folder containing database files.
-- **`controllers/`**: Controllers for handling HTTP requests.
-- **`services/`**: Services for working with data.
-- **`schemas/`**: Schemas for data validation.
-- **`helpers/`**: Helper functions and utilities.
-- **`routes/`**: Routing for handling HTTP requests.
+1. Створи папку `public` для роздачі статики. У цій папці зроби папку `avatars`.
+2. Налаштуй Express на роздачу статичних файлів з папки `public`.
+3. Поклади будь-яке зображення в папку `public/avatars` і перевір, що роздача статики працює.
+4. При переході по такому URL браузер відобразить зображення:  
+   `http://localhost:<порт>/avatars/<ім'я файлу з розширенням>`
 
-#### Installation
+### Крок 2
 
-1. Clone the repository:
+1. У схему користувача додай нову властивість `avatarURL` для зберігання зображення:
 
-   ```bash
-   git clone https://github.com/yourusername/goit-node-rest-api.git
-   ```
+    ```javascript
+    {
+      ...
+      avatarURL: String,
+      ...
+    }
+    ```
 
-2. Install dependencies:
+2. Використовуй пакет `gravatar` для того, щоб при реєстрації нового користувача відразу згенерувати йому аватар по його email.
 
-   ```bash
-   npm install
-   ```
+### Крок 3
 
-#### Usage
+При реєстрації користувача:
 
-For developing and testing the REST API, use tools such as [Postman](https://www.postman.com/) or other HTTP clients.
+- Створюй посилання на аватарку користувача за допомогою `gravatar`.
+- Отриманий URL збережи в поле `avatarURL` під час створення користувача.
 
-#### Verification
+### Крок 4
 
-Ensure that your project works with the latest LTS version of Node.js.
+Додай можливість поновлення аватарки, створивши ендпоінт `/users/avatars` і використовуючи метод `PATCH`.
 
-#### Support
+#### Запит
+```http
+PATCH /users/avatars
+Content-Type: multipart/form-data
+Authorization: "Bearer {{token}}"
+RequestBody: завантажений файл
+```
 
-For any questions or issues with the code, please contact the repository author:
+#### Успішна відповідь
+```http
+Status: 200 OK
+Content-Type: application/json
+ResponseBody: {
+  "avatarURL": "тут буде посилання на зображення"
+}
+```
 
+#### Неуспішна відповідь
+```http
+Status: 401 Unauthorized
+Content-Type: application/json
+ResponseBody: {
+  "message": "Not authorized"
+}
+```
 
-🚩 [![GitHub](https://img.shields.io/badge/GitHub-nataliiahodnia-blue)](https://github.com/nataliiahodnia)
+- Створи папку `tmp` в корені проекту і зберігай в неї завантажену аватарку.
+- Оброби аватарку пакетом `jimp` і постав для неї розміри 250 на 250.
+- Перенеси аватарку користувача з папки `tmp` в папку `public/avatars` і дай їй унікальне ім'я для конкретного користувача.
+- Отриманий URL `/avatars/<ім'я файлу з розширенням>` та збережи в поле `avatarURL` користувача.
 
-🚩 [![LinkedIn](https://img.shields.io/badge/LinkedIn-nataliiahodnia-blue)](https://www.linkedin.com/in/nataliia-hodnia/)
+## Додаткове завдання (необов'язкове)
 
+Написати unit-тести для контролера входу (логін) за допомогою Jest.
 
-### Збереження домашніх завдань 🚀 (Ukrainian)
-
-Кожне домашнє завдання з блоку Node.js можна зберігати на окремій гілці в цьому репозиторії.
-
-- **Модуль 2** — гілка `hw02-express`
-- **Модуль 3** — гілка `03-mongodb`
-- **Модуль 4** — гілка `04-auth`
-- **Модуль 5** — гілка `hw05-avatars`
-- **Модуль 6** — гілка `hw06-email`
-
-### Опис проекту 🚀
-
-Цей репозиторій містить виконані домашні завдання з курсу Node.js. Кожне завдання знаходиться на відповідній гілці, що дозволяє легко відслідковувати прогрес та виконання завдань для кожного модуля.
-
-#### Структура проекту
-
-- **`db/`**: Папка з файлами бази даних.
-- **`controllers/`**: Контролери для обробки HTTP-запитів.
-- **`services/`**: Сервіси для роботи з даними.
-- **`schemas/`**: Схеми для валідації даних.
-- **`helpers/`**: Допоміжні функції та утиліти.
-- **`routes/`**: Маршрутизація для обробки HTTP-запитів.
-
-#### Інсталяція
-
-1. Клонуйте репозиторій:
-
-   ```bash
-   git clone https://github.com/yourusername/goit-node-rest-api.git
-   ```
-
-2. Встановіть залежності:
-
-   ```bash
-   npm install
-   ```
-
-#### Використання
-
-Для розробки та тестування REST API використовуйте інструменти, такі як [Postman](https://www.postman.com/) або інші HTTP-клієнти.
-
-#### Перевірка роботи
-
-Переконайтеся, що ваш проект працює з актуальною LTS-версією Node.js.
-
-#### Підтримка
-
-Якщо у вас виникли питання або проблеми з кодом, будь ласка, зв'яжіться з автором репозиторію:
-
-🚩 [![GitHub](https://img.shields.io/badge/GitHub-nataliiahodnia-blue)](https://github.com/nataliiahodnia)
-
-🚩 [![LinkedIn](https://img.shields.io/badge/LinkedIn-nataliiahodnia-blue)](https://www.linkedin.com/in/nataliia-hodnia/)
-
-
-### Zapisywanie zadań domowych 🚀 (Polish)
-
-Każde zadanie domowe z modułu Node.js można przechowywać na osobnym branchu w tym repozytorium.
-
-- **Moduł 2** — branch `hw02-express`
-- **Moduł 3** — branch `03-mongodb`
-- **Moduł 4** — branch `04-auth`
-- **Moduł 5** — branch `hw05-avatars`
-- **Moduł 6** — branch `hw06-email`
-
-### Opis projektu 🚀
-
-Ten repozytorium zawiera wykonane zadania domowe z kursu Node.js. Każde zadanie znajduje się na odpowiednim branchu, co ułatwia śledzenie postępów i realizację zadań dla każdego modułu.
-
-#### Struktura projektu
-
-- **`db/`**: Katalog zawierający pliki bazy danych.
-- **`controllers/`**: Kontrolery do obsługi żądań HTTP.
-- **`services/`**: Usługi do pracy z danymi.
-- **`schemas/`**: Schematy do walidacji danych.
-- **`helpers/`**: Funkcje pomocnicze i narzędzia.
-- **`routes/`**: Routery do obsługi żądań HTTP.
-
-#### Instalacja
-
-1. Sklonuj repozytorium:
-
-   ```bash
-   git clone https://github.com/yourusername/goit-node-rest-api.git
-   ```
-
-2. Zainstaluj zależności:
-
-   ```bash
-   npm install
-   ```
-
-#### Użycie
-
-Do rozwijania i testowania REST API używaj narzędzi takich jak [Postman](https://www.postman.com/) lub inne klienty HTTP.
-
-#### Weryfikacja działania
-
-Upewnij się, że projekt działa z najnowszą wersją LTS Node.js.
-
-#### Wsparcie
-
-W przypadku pytań lub problemów z kodem skontaktuj się z autorem repozytorium:
-
-🚩 [![GitHub](https://img.shields.io/badge/GitHub-nataliiahodnia-blue)](https://github.com/nataliiahodnia)
-
-🚩 [![LinkedIn](https://img.shields.io/badge/LinkedIn-nataliiahodnia-blue)](https://www.linkedin.com/in/nataliia-hodnia/)
-
+- Відповідь повинна мати статус-код 200.
+- У відповіді повинен повертатися токен.
+- У відповіді повинен повертатися об'єкт `user` з 2 полями `email` і `subscription` з типом даних `String`.

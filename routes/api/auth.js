@@ -20,6 +20,7 @@ router.post("/register", validateBody(regisSchema), (req, res) => {
 });
 
 router.post("/login", validateBody(authSchema), (req, res) => {
+  console.log('IN LOGIN');
   authorization(req, res);
 });
 

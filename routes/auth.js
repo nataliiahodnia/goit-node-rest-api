@@ -10,30 +10,20 @@ const {
   getCurrentUser,
   logout,
   subscriptionUpdate,
+  updateAvatar,
 } = require("../../controllers/index");
 const { authenticate } = require("../../middlewares/authenticate");
+const { upload } = require("../../middlewares/upload");
 
 const router = express.Router();
 
-router.post("/register", validateBody(regisSchema), (req, res) => {
-  registration(req, res);
-});
+router.post("/register", validateBody(regisSchema), registration);
+router.post("/login", validateBody(authSchema), authorization);
+router.post("/logout", authenticate, logout);
 
-router.post("/login", validateBody(authSchema), (req, res) => {
-  console.log('IN LOGIN');
-  authorization(req, res);
-});
+router.get("/current", authenticate, getCurrentUser);
 
-router.post("/logout", authenticate, (req, res) => {
-  logout(req, res);
-});
-
-router.get("/current", authenticate, (req, res) => {
-  getCurrentUser(req, res);
-});
-
-router.patch("/", authenticate, (req, res) => {
-  subscriptionUpdate(req, res);
-});
+router.patch("/", authenticate, subscriptionUpdate);
+router.patch("/avatars", authenticate, upload.single("avatar"), updateAvatar);
 
 module.exports = router;

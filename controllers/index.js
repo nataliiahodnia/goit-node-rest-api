@@ -10,6 +10,7 @@ const authorization = require("./auth/authorization");
 const getCurrentUser = require("./auth/getCurrentUser");
 const logout = require("./auth/logout");
 const subscriptionUpdate = require("./auth/subscriptionUpdate");
+const updateAvatar = require("./auth/updateAvatar");
 
 module.exports = {
   getAllContacts,
@@ -23,4 +24,5 @@ module.exports = {
   getCurrentUser,
   logout,
   subscriptionUpdate,
+  updateAvatar,
 };

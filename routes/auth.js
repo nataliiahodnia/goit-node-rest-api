@@ -1,8 +1,8 @@
 const express = require("express");
-const { validateBody } = require("../../helpers/validateBody");
+const { validateBody } = require("../helpers/validateBody");
 const {
   schemas: { regisSchema, authSchema },
-} = require("../../models/user");
+} = require("../models/user");
 
 const {
   registration,
@@ -11,9 +11,9 @@ const {
   logout,
   subscriptionUpdate,
   updateAvatar,
-} = require("../../controllers/index");
-const { authenticate } = require("../../middlewares/authenticate");
-const { upload } = require("../../middlewares/upload");
+} = require("../controllers/index");
+const { authenticate } = require("../middlewares/authenticate");
+const { upload } = require("../middlewares/upload");
 
 const router = express.Router();
 

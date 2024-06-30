@@ -13,7 +13,7 @@ const updateAvatar = async (req, res, next) => {
     }
 
     const { _id } = req.user;
-    const { path: tempUpload, originalname } = req.file;
+    const { path: tempUpload, originalname } = req.file;    
     const fileName = `${_id}_${originalname}`;
     const resultUpload = path.join(avatarsDir, fileName);
 

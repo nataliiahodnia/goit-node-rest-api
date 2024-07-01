@@ -1,7 +1,6 @@
-```markdown
-# Домашнє завдання 6
+# Домашнє завдання 5
 
-## Створи гілку `hw06-email` з гілки `master`.
+Створи гілку `hw06-email` з гілки `master`.
 
 Продовжуємо створення REST API для роботи з колекцією контактів.
 
@@ -16,25 +15,18 @@
 ## Крок 1: Підготовка інтеграції з SendGrid API
 
 1. Зареєструйся на SendGrid.
-2. Створи email-відправника. Для цього в адміністративній панелі SendGrid зайди в меню **Marketing**, підменю **Senders** і в правому верхньому куті натисни кнопку **Create New Sender**. Заповни поля в запропонованій формі та збережи.
+2. Створи email-відправника. Для цього:
+    - В адміністративній панелі SendGrid зайди в меню **Marketing**, підменю **Senders** і в правому верхньому куті натисни кнопку **Create New Sender**.
+    - Заповни поля в запропонованій формі та збережи.
 
-    Повинен вийти наступний результат, тільки з вашим email:
+    На вказаний email повинно прийти лист верифікації (перевірте спам, якщо не бачите листа). Натисни на посилання в ньому і заверши процес.
 
-    ![SendGrid Sender](https://via.placeholder.com/600x300)
+3. Створи API токен доступу. Для цього:
+    - Вибери меню **Email API**, підменю **Integration Guide**.
+    - Вибери **Web API** і технологію `Node.js`.
+    - На третьому кроці дай ім'я вашому токену, наприклад `systemcats`, натисни кнопку **Generate** і скопіюй цей токен.
 
-    На вказаний email повинно прийти лист верифікації (перевірте спам, якщо не бачите листа). Натисніть на посилання в ньому і завершіть процес. Результат повинен змінитися на:
-
-    ![Verification Result](https://via.placeholder.com/600x300)
-
-3. Тепер необхідно створити API токен доступу. Вибери меню **Email API**, підменю **Integration Guide**. Тут вибери **Web API**.
-
-4. Далі необхідно вибрати технологію `Node.js`.
-
-5. На третьому кроці дай ім'я вашому токену, наприклад `systemcats`, натисни кнопку **Generate** і отримай результат, як на скріншоті нижче. Скопіюй цей токен (це важливо, тому що більше ти не зможеш його побачити). Після цього заверши процес створення токена.
-
-    ![API Token](https://via.placeholder.com/600x300)
-
-Отриманий API-токен треба додати в `.env` файл в нашому проекті.
+4. Отриманий API-токен додай в `.env` файл в нашому проекті.
 
 ## Крок 2: Створення ендпоінта для верифікації email
 
@@ -53,33 +45,33 @@
     }
     ```
 
-2. Створи ендпоінт `GET /users/verify/:verificationToken` (# verification-request), де по параметру `verificationToken` ми будемо шукати користувача в моделі `User`.
+2. Створи ендпоінт `GET /users/verify/:verificationToken`, де по параметру `verificationToken` ми будемо шукати користувача в моделі `User`.
 
     - Якщо користувач з таким токеном не знайдений, повернути помилку `Not Found`.
-    - Якщо користувач знайдений - встановлюємо `verificationToken` в `null`, а поле `verify` ставимо рівним `true` в документі користувача і повертаємо успішну відповідь.
+    - Якщо користувач знайдений, встановити `verificationToken` в `null`, а поле `verify` поставити рівним `true` в документі користувача і повернути успішну відповідь.
 
-    ### Verification request
-    ```http
-    GET /auth/verify/:verificationToken
+### Verification request
+```http
+GET /auth/verify/:verificationToken
+```
+
+### Verification user Not Found
+- **Status:** 404 Not Found
+- **ResponseBody:**
+    ```json
+    {
+      "message": "User not found"
+    }
     ```
 
-    ### Verification user Not Found
-    - **Status:** 404 Not Found
-    - **ResponseBody:**
-        ```json
-        {
-          "message": "User not found"
-        }
-        ```
-
-    ### Verification success response
-    - **Status:** 200 OK
-    - **ResponseBody:**
-        ```json
-        {
-          "message": "Verification successful"
-        }
-        ```
+### Verification success response
+- **Status:** 200 OK
+- **ResponseBody:**
+    ```json
+    {
+      "message": "Verification successful"
+    }
+    ```
 
 ## Крок 3: Додавання відправки email користувачу з посиланням для верифікації
 

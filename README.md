@@ -1,162 +1,148 @@
-### Saving Homework Assignments 🚀 (English)
+```markdown
+# Домашнє завдання 6
 
-Each Node.js module homework assignment can be stored on a separate branch in this repository.
+## Створи гілку `hw06-email` з гілки `master`.
 
-- **Module 2** — branch `hw02-express`
-- **Module 3** — branch `03-mongodb`
-- **Module 4** — branch `04-auth`
-- **Module 5** — branch `hw05-avatars`
-- **Module 6** — branch `hw06-email`
+Продовжуємо створення REST API для роботи з колекцією контактів.
 
-### Project Description 🚀
+Додайте верифікацію email користувача після реєстрації за допомогою сервісу SendGrid.
 
-This repository contains completed homework assignments from the Node.js course. Each assignment is located on its respective branch, making it easy to track progress and completion for each module.
+## Як процес верифікації повинен працювати
 
-#### Project Structure
+1. Після реєстрації користувач повинен отримати лист на вказану при реєстрації пошту з посиланням для верифікації свого email.
+2. Пройшовши посиланням в отриманому листі, вперше користувач повинен отримати відповідь зі статусом `200`, що буде мати на увазі успішну верифікацію email.
+3. Пройшовши по посиланню повторно, користувач повинен отримати помилку зі статусом `404`.
 
-- **`db/`**: Folder containing database files.
-- **`controllers/`**: Controllers for handling HTTP requests.
-- **`services/`**: Services for working with data.
-- **`schemas/`**: Schemas for data validation.
-- **`helpers/`**: Helper functions and utilities.
-- **`routes/`**: Routing for handling HTTP requests.
+## Крок 1: Підготовка інтеграції з SendGrid API
 
-#### Installation
+1. Зареєструйся на SendGrid.
+2. Створи email-відправника. Для цього в адміністративній панелі SendGrid зайди в меню **Marketing**, підменю **Senders** і в правому верхньому куті натисни кнопку **Create New Sender**. Заповни поля в запропонованій формі та збережи.
 
-1. Clone the repository:
+    Повинен вийти наступний результат, тільки з вашим email:
 
-   ```bash
-   git clone https://github.com/yourusername/goit-node-rest-api.git
-   ```
+    ![SendGrid Sender](https://via.placeholder.com/600x300)
 
-2. Install dependencies:
+    На вказаний email повинно прийти лист верифікації (перевірте спам, якщо не бачите листа). Натисніть на посилання в ньому і завершіть процес. Результат повинен змінитися на:
 
-   ```bash
-   npm install
-   ```
+    ![Verification Result](https://via.placeholder.com/600x300)
 
-#### Usage
+3. Тепер необхідно створити API токен доступу. Вибери меню **Email API**, підменю **Integration Guide**. Тут вибери **Web API**.
 
-For developing and testing the REST API, use tools such as [Postman](https://www.postman.com/) or other HTTP clients.
+4. Далі необхідно вибрати технологію `Node.js`.
 
-#### Verification
+5. На третьому кроці дай ім'я вашому токену, наприклад `systemcats`, натисни кнопку **Generate** і отримай результат, як на скріншоті нижче. Скопіюй цей токен (це важливо, тому що більше ти не зможеш його побачити). Після цього заверши процес створення токена.
 
-Ensure that your project works with the latest LTS version of Node.js.
+    ![API Token](https://via.placeholder.com/600x300)
 
-#### Support
+Отриманий API-токен треба додати в `.env` файл в нашому проекті.
 
-For any questions or issues with the code, please contact the repository author:
+## Крок 2: Створення ендпоінта для верифікації email
 
+1. Додай в модель `User` два поля: `verificationToken` і `verify`. Значення поля `verify` рівне `false` означатиме, що його email ще не пройшов верифікацію.
 
-🚩 [![GitHub](https://img.shields.io/badge/GitHub-nataliiahodnia-blue)](https://github.com/nataliiahodnia)
+    ```javascript
+    {
+      verify: {
+        type: Boolean,
+        default: false,
+      },
+      verificationToken: {
+        type: String,
+        required: [true, 'Verify token is required'],
+      },
+    }
+    ```
 
-🚩 [![LinkedIn](https://img.shields.io/badge/LinkedIn-nataliiahodnia-blue)](https://www.linkedin.com/in/nataliia-hodnia/)
+2. Створи ендпоінт `GET /users/verify/:verificationToken` (# verification-request), де по параметру `verificationToken` ми будемо шукати користувача в моделі `User`.
 
+    - Якщо користувач з таким токеном не знайдений, повернути помилку `Not Found`.
+    - Якщо користувач знайдений - встановлюємо `verificationToken` в `null`, а поле `verify` ставимо рівним `true` в документі користувача і повертаємо успішну відповідь.
 
-### Збереження домашніх завдань 🚀 (Ukrainian)
+    ### Verification request
+    ```http
+    GET /auth/verify/:verificationToken
+    ```
 
-Кожне домашнє завдання з блоку Node.js можна зберігати на окремій гілці в цьому репозиторії.
+    ### Verification user Not Found
+    - **Status:** 404 Not Found
+    - **ResponseBody:**
+        ```json
+        {
+          "message": "User not found"
+        }
+        ```
 
-- **Модуль 2** — гілка `hw02-express`
-- **Модуль 3** — гілка `03-mongodb`
-- **Модуль 4** — гілка `04-auth`
-- **Модуль 5** — гілка `hw05-avatars`
-- **Модуль 6** — гілка `hw06-email`
+    ### Verification success response
+    - **Status:** 200 OK
+    - **ResponseBody:**
+        ```json
+        {
+          "message": "Verification successful"
+        }
+        ```
 
-### Опис проекту 🚀
+## Крок 3: Додавання відправки email користувачу з посиланням для верифікації
 
-Цей репозиторій містить виконані домашні завдання з курсу Node.js. Кожне завдання знаходиться на відповідній гілці, що дозволяє легко відслідковувати прогрес та виконання завдань для кожного модуля.
+При створенні користувача при реєстрації:
 
-#### Структура проекту
+1. Створи `verificationToken` для користувача і запиши його в БД (для генерації токена використовуйте пакет `uuid` або `nanoid`).
+2. Відправ email на пошту користувача і вкажи посилання для верифікації email'а (`/users/verify/:verificationToken`) в повідомленні.
+3. Логін користувача не дозволено, якщо не верифіковано email.
 
-- **`db/`**: Папка з файлами бази даних.
-- **`controllers/`**: Контролери для обробки HTTP-запитів.
-- **`services/`**: Сервіси для роботи з даними.
-- **`schemas/`**: Схеми для валідації даних.
-- **`helpers/`**: Допоміжні функції та утиліти.
-- **`routes/`**: Маршрутизація для обробки HTTP-запитів.
+## Крок 4: Додавання повторної відправки email користувачу з посиланням для верифікації
 
-#### Інсталяція
+Необхідно передбачити варіант, що користувач може випадково видалити лист. Воно може не дійти з якоїсь причини до адресата. Наш сервіс відправки листів під час реєстрації видав помилку і т.д.
 
-1. Клонуйте репозиторій:
+### POST /users/verify
 
-   ```bash
-   git clone https://github.com/yourusername/goit-node-rest-api.git
-   ```
+- Отримує body у форматі `{email}`.
+- Якщо в body немає обов'язкового поля `email`, повертає json з ключем `{"message":"missing required field email"}` і статусом `400`.
+- Якщо з body все добре, виконуємо повторну відправку листа з `verificationToken` на вказаний email, але тільки якщо користувач не верифікований.
+- Якщо користувач вже пройшов верифікацію, відправити json з ключем `{"message":"Verification has already been passed"}` зі статусом `400 Bad Request`.
 
-2. Встановіть залежності:
+### Resending an email request
+```http
+POST /users/verify
+Content-Type: application/json
+RequestBody:
+{
+  "email": "example@example.com"
+}
+```
 
-   ```bash
-   npm install
-   ```
+### Resending an email validation error
+- **Status:** 400 Bad Request
+- **Content-Type:** application/json
+- **ResponseBody:**
+    ```json
+    {
+      "message": "Помилка від Joi або іншої бібліотеки валідації"
+    }
+    ```
 
-#### Використання
+### Resending an email success response
+- **Status:** 200 Ok
+- **Content-Type:** application/json
+- **ResponseBody:**
+    ```json
+    {
+      "message": "Verification email sent"
+    }
+    ```
 
-Для розробки та тестування REST API використовуйте інструменти, такі як [Postman](https://www.postman.com/) або інші HTTP-клієнти.
+### Resend email for verified user
+- **Status:** 400 Bad Request
+- **Content-Type:** application/json
+- **ResponseBody:**
+    ```json
+    {
+      "message": "Verification has already been passed"
+    }
+    ```
 
-#### Перевірка роботи
+**ПРИМІТКА!** Як альтернативу SendGrid можна використовувати пакет `nodemailer`.
 
-Переконайтеся, що ваш проект працює з актуальною LTS-версією Node.js.
+## Додаткове завдання (необов'язкове)
 
-#### Підтримка
-
-Якщо у вас виникли питання або проблеми з кодом, будь ласка, зв'яжіться з автором репозиторію:
-
-🚩 [![GitHub](https://img.shields.io/badge/GitHub-nataliiahodnia-blue)](https://github.com/nataliiahodnia)
-
-🚩 [![LinkedIn](https://img.shields.io/badge/LinkedIn-nataliiahodnia-blue)](https://www.linkedin.com/in/nataliia-hodnia/)
-
-
-### Zapisywanie zadań domowych 🚀 (Polish)
-
-Każde zadanie domowe z modułu Node.js można przechowywać na osobnym branchu w tym repozytorium.
-
-- **Moduł 2** — branch `hw02-express`
-- **Moduł 3** — branch `03-mongodb`
-- **Moduł 4** — branch `04-auth`
-- **Moduł 5** — branch `hw05-avatars`
-- **Moduł 6** — branch `hw06-email`
-
-### Opis projektu 🚀
-
-Ten repozytorium zawiera wykonane zadania domowe z kursu Node.js. Każde zadanie znajduje się na odpowiednim branchu, co ułatwia śledzenie postępów i realizację zadań dla każdego modułu.
-
-#### Struktura projektu
-
-- **`db/`**: Katalog zawierający pliki bazy danych.
-- **`controllers/`**: Kontrolery do obsługi żądań HTTP.
-- **`services/`**: Usługi do pracy z danymi.
-- **`schemas/`**: Schematy do walidacji danych.
-- **`helpers/`**: Funkcje pomocnicze i narzędzia.
-- **`routes/`**: Routery do obsługi żądań HTTP.
-
-#### Instalacja
-
-1. Sklonuj repozytorium:
-
-   ```bash
-   git clone https://github.com/yourusername/goit-node-rest-api.git
-   ```
-
-2. Zainstaluj zależności:
-
-   ```bash
-   npm install
-   ```
-
-#### Użycie
-
-Do rozwijania i testowania REST API używaj narzędzi takich jak [Postman](https://www.postman.com/) lub inne klienty HTTP.
-
-#### Weryfikacja działania
-
-Upewnij się, że projekt działa z najnowszą wersją LTS Node.js.
-
-#### Wsparcie
-
-W przypadku pytań lub problemów z kodem skontaktuj się z autorem repozytorium:
-
-🚩 [![GitHub](https://img.shields.io/badge/GitHub-nataliiahodnia-blue)](https://github.com/nataliiahodnia)
-
-🚩 [![LinkedIn](https://img.shields.io/badge/LinkedIn-nataliiahodnia-blue)](https://www.linkedin.com/in/nataliia-hodnia/)
-
+Напишіть Dockerfile для вашої програми.
+```

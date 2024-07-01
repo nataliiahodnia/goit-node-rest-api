@@ -10,7 +10,7 @@ const {
 } = require("../controllers/index");
 
 const { validateBody } = require("../helpers/validateBody");
-const { isValidId } = require("../helpers/isValidld");
+const { isValidId } = require("../helpers/isValidId");
 const {
   schemas: { createContactSchema, updateContactSchema, updateFavorite },
 } = require("../models/contact");
